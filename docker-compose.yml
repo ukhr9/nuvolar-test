@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile_Apigateway
+    container_name: api-gateway
+    ports:
+    - 8080:8080
+    environment:
+      - ORDER_SERVICE_URL=http://order-service:8080
+    networks:
+      - nuvolar
+  order-service:
+    image: nuvolar/order-service
+    container_name: order-service
+    ports:
+    - 8081:8080
+    environment:
+      - CUSTOMER_SERVICE_URL=http://customer-service:8080
+    networks:
+      - nuvolar
+  customer-sercice:
+    image: nuvolar/customer-service
+    container_name: customer-service
+    ports:
+    - 8082:8080
+    networks:
+      - nuvolar
+
+networks:
+  nuvolar:

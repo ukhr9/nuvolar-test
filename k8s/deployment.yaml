@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: nuvolar/api-gateway
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: ORDER_SERVICE_URL
+          value: http://order-service.default.svc.cluster.local:8081
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  labels:
+    app: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: nuvolar/order-service
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: CUSTOMER_SERVICE_URL
+          value: http://customer-service.default.svc.cluster.local:8082
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-service
+  labels:
+    app: customer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-service
+  template:
+    metadata:
+      labels:
+        app: customer-service
+    spec:
+      containers:
+      - name: customer-service
+        image: nuvolar/customer-service
+        ports:
+        - containerPort: 8080
+          protocol: TCP

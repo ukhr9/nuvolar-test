@@ -1,0 +1,5 @@
+FROM nuvolar/api-gateway
+
+USER root
+
+RUN apt update && apt-get install telnet iputils-ping curl -y
