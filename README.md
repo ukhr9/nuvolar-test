@@ -23,4 +23,6 @@ nuv-ingress   <none>   *       34.128.165.88   80      85m
 
 ```
 
+In order to reproduce this test, some things must be deleted/changed such as the terraform state in order to create brand-new infrastructure and things related to impersonation ( sa.json/provider.tf ).
+
 To expose the app through SSL/TLS, we shall create an autosigned certificate and mount it to the exposed Ingress as a Secret in the **ingress.yaml** file itself. If we don't want Ingress to serve the traffic directly we could create a Cloud Load Balancer and this service would be the one serving traffic through :443. I couldn't do this part because as mentioned before, I was limited in my GCP environment. I wanted to create this environment as real as possible with a Google account and with services that would be used in production but I couldn't for example create a DNS zone with a test domain to serve traffic through a CLB and a Google managed certificate
